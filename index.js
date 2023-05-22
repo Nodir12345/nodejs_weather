@@ -4,8 +4,8 @@ import {
   SaveStorege,
   TOKEN_DICTINORY,
 } from "./servises/storege.js";
-import { printErr, printSuc, printHelp } from "./servises/servies.js";
-import { Get_weather } from "./servises/api.js";
+import { printErr, printSuc, printHelp, printweather } from "./servises/servies.js";
+import { getIcons, Get_weather } from "./servises/api.js";
 const savetoken = async (token) => {
   try {
     if (!token.length) {
@@ -36,7 +36,7 @@ const getForcast = async () => {
   try {
     const city = process.env.CITY ?? (await getKeyvalue(TOKEN_DICTINORY.city));
     const respons = await Get_weather(city);
-    console.log(respons);
+    printweather(respons, getIcons(respons.weather[0].icon))
   } catch (error) {
     if (error?.respons?.status == 404) {
       printErr("City not found");
